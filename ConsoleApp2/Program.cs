@@ -1,9 +1,17 @@
-﻿namespace ConsoleApp2
+﻿using System.Text.Json;
+using System.Threading.Channels;
+
+namespace ConsoleApp2
 {
-    public class  adatok
+    class Adat
     {
-        public string nevek { get; set; }
-        public int korok { get; set; }
+        public List<string> nevek { get; set; }
+        public List<int> korok { get; set; }
+    }
+    class Diakok
+    {
+        public String nev { get; set; }
+        public List<int> jegyek { get; set; }
     }
     internal class Program
     {
@@ -11,12 +19,33 @@
         {
             String fajl = File.ReadAllText("adatok.json", System.Text.Encoding.Latin1);
             Console.WriteLine(fajl);
-            adatok  adat = JsonSerializer.Deserialize<adatok>(fajl);
-            foreach (var nev in adat.nevek)
+            Adat adat = JsonSerializer.Deserialize<Adat>(fajl);
+            foreach (var nev1 in adat.nevek)
             {
-                Console.WriteLine(nev);
+                Console.WriteLine(nev1);
             }
-            Console.WriteLine($"");
+            Console.WriteLine($"{adat.nevek[0]} életkor:{adat.korok[0]}");
+
+            fajl = File.ReadAllText("diakok.json", System.Text.Encoding.Latin1);
+            Console.WriteLine(fajl);
+            List<Diakok> diakok = JsonSerializer.Deserialize<List<Diakok>>(fajl);
+            Console.WriteLine("Keresse: ");
+            String nev = Console.ReadLine();
+            bool megvan = false;
+            foreach (var diak in diakok)
+            {
+                if (diak.nev == nev)
+                {
+                    Console.WriteLine("Átlaga: " + diak.jegyek.Average());
+                    megvan = true;
+                }
+
+            }
+            if (!megvan)
+            {
+                Console.WriteLine("Nincs ilyen nevű diák!");
+            }
         }
     }
 }
+    
