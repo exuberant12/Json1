@@ -11,7 +11,12 @@
         {
             String fajl = File.ReadAllText("adatok.json", System.Text.Encoding.Latin1);
             Console.WriteLine(fajl);
-
+            adatok  adat = JsonSerializer.Deserialize<adatok>(fajl);
+            foreach (var nev in adat.nevek)
+            {
+                Console.WriteLine(nev);
+            }
+            Console.WriteLine($"");
         }
     }
 }
